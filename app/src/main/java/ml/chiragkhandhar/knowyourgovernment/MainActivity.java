@@ -3,22 +3,29 @@ package ml.chiragkhandhar.knowyourgovernment;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     private RecyclerView rv;
     private TextView location;
+    private ArrayList<Official> officialArrayList = new ArrayList<>();
+    private OfficialAdapter officialAdapter;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,15 +34,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         setupComponents();
 
+        officialAdapter = new OfficialAdapter(officialArrayList,this);
+        rv.setAdapter(officialAdapter);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+
         if(networkChecker())
         {
-            // Do Stuff
+            getOfficialData();
         }
         else
         {
             noNetworkDialog(getString(R.string.networkErrorMsg1));
         }
+
+
+
     }
+
+    private void getOfficialData()
+    {
+        ArrayList<Official> tempList = new ArrayList<>();
+
+        String title1 = "U.S. Senator";
+        String title2 = "U.S. Representative";
+        String name1 = "Chirag Khandhar";
+        String name2 = "Shloka Bhalgat";
+        String party1 = "(Democratic Party)";
+        String party2 = "(Republican Party)";
+
+        for(int i = 0; i<10; i++)
+        {
+            Official temp1 = new Official();
+            temp1.setTitle(title1);
+            temp1.setName(name1);
+            temp1.setParty(party1);
+            tempList.add(temp1);
+
+            Official temp2 = new Official();
+            temp2.setTitle(title2);
+            temp2.setName(name2);
+            temp2.setParty(party2);
+            tempList.add(temp2);
+        }
+
+        Log.d(TAG, "onCreate: bp: tempList: " + tempList);
+        updateOfficialData(tempList);
+    }
+
     public void setupComponents()
     {
         rv = findViewById(R.id.recycler);
@@ -61,6 +106,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void updateOfficialData(ArrayList<Official> tempList)
+    {
+        officialArrayList.clear();
+        officialArrayList.addAll(tempList);
+        Log.d(TAG, "updateOfficialData: bp: officialArrayList[0]: " + officialArrayList.get(0));
+        officialAdapter.notifyDataSetChanged();
     }
 
     @Override
