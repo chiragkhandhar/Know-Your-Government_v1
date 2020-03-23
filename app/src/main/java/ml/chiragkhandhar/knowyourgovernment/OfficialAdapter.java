@@ -26,7 +26,7 @@ public class OfficialAdapter extends RecyclerView.Adapter<OfficialViewHolder>
     public OfficialViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.official_entry,parent,false);
-
+        itemView.setOnClickListener(mainActivity);
         return new OfficialViewHolder(itemView);
     }
 

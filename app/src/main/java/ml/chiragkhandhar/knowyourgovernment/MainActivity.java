@@ -7,13 +7,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,8 +49,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             noNetworkDialog(getString(R.string.networkErrorMsg1));
         }
-
-
 
     }
 
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.search:
                 if(networkChecker())
                 {
-                    // Some Stuff
+                    search();
                 }
                 else
                     noNetworkDialog(getString(R.string.networkErrorMsg2));
@@ -145,9 +146,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
+    public void search()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        final EditText et = new EditText(this);
+        et.setGravity(Gravity.CENTER_HORIZONTAL);
+        builder.setView(et);
+        builder.setIcon(R.drawable.ic_search_accent);
+
+        builder.setPositiveButton("Search", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id)
+            {
+                Toast.makeText(MainActivity.this, "Search Button Clicked", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id)
+            {
+                Toast.makeText(MainActivity.this, R.string.negativeBtn2, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setMessage(R.string.searchMsg);
+        builder.setTitle(R.string.searchTitle);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     @Override
     public void onClick(View view)
     {
+        int position = rv.getChildAdapterPosition(view);
+        Official temp = officialArrayList.get(position);
 
+        // Do Stuff
+        Toast.makeText(this, temp.getName(), Toast.LENGTH_SHORT).show();
     }
 }

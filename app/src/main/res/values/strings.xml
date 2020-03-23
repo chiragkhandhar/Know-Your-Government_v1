@@ -6,4 +6,7 @@
     <string name="search">Search</string>
     <string name="about">About</string>
     <string name="separator">separator</string>
+    <string name="negativeBtn2">You changed your mind!</string>
+    <string name="searchTitle">Region in United States</string>
+    <string name="searchMsg">Enter a City, State or a ZIP Code</string>
 </resources>
