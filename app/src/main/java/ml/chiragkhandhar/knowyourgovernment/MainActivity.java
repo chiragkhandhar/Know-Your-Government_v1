@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
@@ -13,6 +14,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +24,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener
 {
     private RecyclerView rv;
     private TextView location;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(networkChecker())
         {
             getOfficialData();
+            new OfficialLoader(this).execute("Chicago");
         }
         else
         {
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         Log.d(TAG, "onCreate: bp: tempList: " + tempList);
-        updateOfficialData(tempList);
+//        updateOfficialData(tempList);
     }
 
     public void setupComponents()
@@ -184,5 +187,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Do Stuff
         Toast.makeText(this, temp.getName(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onLongClick(View view)
+    {
+        int position = rv.getChildAdapterPosition(view);
+        Official temp = officialArrayList.get(position);
+
+        // Dialog with a layout
+
+        // Inflate the dialog's layout
+        LayoutInflater inflater = LayoutInflater.from(this);
+        @SuppressLint("InflateParams")
+        final View v = inflater.inflate(R.layout.dialog, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("Please enter the values:");
+//        builder.setTitle("Dialog Layout");
+
+        // Set the inflated view to be the builder's view
+        builder.setView(view);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        return true;
     }
 }

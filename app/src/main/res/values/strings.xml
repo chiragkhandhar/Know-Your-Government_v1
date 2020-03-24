@@ -9,4 +9,6 @@
     <string name="negativeBtn2">You changed your mind!</string>
     <string name="searchTitle">Region in United States</string>
     <string name="searchMsg">Enter a City, State or a ZIP Code</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="party_logo">Party Logo</string>
 </resources>
