@@ -1,5 +1,6 @@
 package ml.chiragkhandhar.knowyourgovernment;
 
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -17,11 +18,13 @@ import java.util.ArrayList;
 
 public class OfficialLoader extends AsyncTask<String,Void, ArrayList<Official>>
 {
+    @SuppressLint("StaticFieldLeak")
     private MainActivity mainActivity;
     private final String API_TOKEN = "AIzaSyA7D-yk8Cue5NK8PU6jjAW1Df4l70akgAw";
     private static final String TAG = "OfficialLoader";
 
-    public OfficialLoader(MainActivity mainActivity)
+
+    OfficialLoader(MainActivity mainActivity)
     {
         this.mainActivity = mainActivity;
     }
@@ -34,14 +37,11 @@ public class OfficialLoader extends AsyncTask<String,Void, ArrayList<Official>>
 
         String DATA_URL = "https://www.googleapis.com/civicinfo/v2/representatives?key="+API_TOKEN+"&address="+CT_ST_ZP;
 
-
         String data = getOfficialDatafromURL(DATA_URL);
         finalData = parseJSON(data);
 
         return finalData;
     }
-
-
 
     private String getOfficialDatafromURL(String URL)
     {
@@ -110,10 +110,14 @@ public class OfficialLoader extends AsyncTask<String,Void, ArrayList<Official>>
     private Official fetchOfficialDetails(JSONObject officialData_JSON)
     {
         Official temp = new Official();
-
         temp.setName(getNameFromData(officialData_JSON));
-
-
+        temp.setParty(getPartyFromData(officialData_JSON));
+        temp.setAddress(getAddressFromData(officialData_JSON));
+        temp.setUrls(getURLFromData(officialData_JSON));
+        temp.setEmails(getEmailFromData(officialData_JSON));
+        temp.setPhones(getPhoneFromData(officialData_JSON));
+        temp.setPhotoURL(getPhotoURLfromData(officialData_JSON));
+        temp.setChannels(getChannelsFromData(officialData_JSON));
         return temp;
     }
 
@@ -132,6 +136,187 @@ public class OfficialLoader extends AsyncTask<String,Void, ArrayList<Official>>
         return name;
     }
 
+    private String getAddressFromData(JSONObject officialData_json)
+    {
+        String finalAddress = "";
+        try
+        {
+            JSONArray addresses = (JSONArray) officialData_json.get("address");
+            JSONObject address = (JSONObject) addresses.get(0);
+            String line1 = getLine1FromData(address);
+            String line2 = getLine2FromData(address);
+            String city = getCityFromData(address);
+            String zip = getZIPFromData(address);
+            finalAddress = line1 + ", " + (line2.equals("")?line2 + "":line2 + ", ") + city + ", " + zip;
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "EXCEPTION | getAddressFromData: " + e);
+        }
+
+        return finalAddress;
+    }
+
+    private String getLine1FromData(JSONObject address)
+    {
+        String line1 = "";
+        try
+        {
+             line1 = address.getString("line1");
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "EXCEPTION | getLine1FromData: " + e);
+        }
+        return line1;
+    }
+
+    private String getLine2FromData(JSONObject address)
+    {
+        String line2 = "";
+        try
+        {
+            line2 = address.getString("line2");
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "EXCEPTION | getLine2FromData: " + e);
+        }
+        return line2;
+    }
+
+    private String getCityFromData(JSONObject address)
+    {
+        String city = "";
+        try
+        {
+            city = address.getString("city");
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "EXCEPTION | getCityFromData: " + e);
+        }
+        return city;
+    }
+    private String getZIPFromData(JSONObject address)
+    {
+        String zip = "";
+        try
+        {
+            zip = address.getString("zip");
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "EXCEPTION | getZIPFromData: " + e);
+        }
+        return zip;
+    }
+
+    private String getURLFromData(JSONObject officialData_json)
+    {
+        String URL = "";
+
+        try
+        {
+            JSONArray urls = (JSONArray) officialData_json.get("urls");
+            URL = urls.get(0).toString();
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "EXCEPTION | getURLFromData: " + e);
+        }
+
+        return URL;
+    }
+
+    private String getEmailFromData(JSONObject officialData_json)
+    {
+        String email = "";
+
+        try
+        {
+            JSONArray urls = (JSONArray) officialData_json.get("emails");
+            email = urls.get(0).toString();
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "EXCEPTION | getEmailFromData: " + e);
+        }
+
+        return email;
+    }
+
+    private String getPhoneFromData(JSONObject officialData_json)
+    {
+        String phone = "";
+
+        try
+        {
+            JSONArray urls = (JSONArray) officialData_json.get("phones");
+            phone = urls.get(0).toString();
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "EXCEPTION | getPhoneFromData: " + e);
+        }
+
+        return phone;
+    }
+
+    private String getPartyFromData(JSONObject officialData_json)
+    {
+        String party = "";
+        try
+        {
+            party = officialData_json.getString("party");
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "EXCEPTION | fetchOfficialDetails: bp: " + e);
+        }
+
+        return  "( "+party+" )";
+    }
+
+    private ArrayList<Channel> getChannelsFromData(JSONObject officialData_json)
+    {
+        ArrayList<Channel> tempList = new ArrayList<>();
+        Channel temp;
+
+        try
+        {
+            JSONArray channels = (JSONArray) officialData_json.get("channels");
+            for(int i = 0; i < channels.length(); i++)
+            {
+                JSONObject channel = (JSONObject) channels.get(i);
+                temp = new Channel(channel.getString("type"), channel.getString("id"));
+                tempList.add(temp);
+            }
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "EXCEPTION | getAddressFromData: " + e);
+        }
+        return tempList;
+    }
+
+    private String getPhotoURLfromData(JSONObject officialData_json)
+    {
+        String photoURL = "";
+
+        try
+        {
+            photoURL = officialData_json.getString("photoUrl");
+            Log.d(TAG, "getPhotoURLfromData: bp: PhotoURL: " + photoURL);
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "EXCEPTION | getEmailFromData: " + e);
+        }
+
+        return photoURL;
+    }
+
     private void setUpLocation(String data)
     {
         TextView location = mainActivity.findViewById(R.id.location);
@@ -147,11 +332,9 @@ public class OfficialLoader extends AsyncTask<String,Void, ArrayList<Official>>
         }
         catch (Exception e)
         {
-            Log.d(TAG, "EXCEPTION | parseJSON: bp:" + e);
+            Log.d(TAG, "EXCEPTION | parseJSON: " + e);
         }
     }
-
-
 
     @Override
     protected void onPostExecute(ArrayList<Official> officials)

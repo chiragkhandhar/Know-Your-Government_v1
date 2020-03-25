@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(networkChecker())
         {
             getOfficialData();
-            new OfficialLoader(this).execute("Chicago");
+            new OfficialLoader(this).execute("chicago");
         }
         else
         {
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tempList.add(temp2);
         }
 
-        Log.d(TAG, "onCreate: bp: tempList: " + tempList);
+//        Log.d(TAG, "onCreate: bp: tempList: " + tempList);
 //        updateOfficialData(tempList);
     }
 
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         officialArrayList.clear();
         officialArrayList.addAll(tempList);
-        Log.d(TAG, "updateOfficialData: bp: officialArrayList[0]: " + officialArrayList.get(0));
+//        Log.d(TAG, "updateOfficialData: bp: officialArrayList[0]: " + officialArrayList.get(0));
         officialAdapter.notifyDataSetChanged();
     }
 
