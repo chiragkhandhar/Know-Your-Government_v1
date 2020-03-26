@@ -11,4 +11,10 @@
     <string name="searchMsg">Enter a City, State or a ZIP Code</string>
     <string name="profile_picture">Profile Picture</string>
     <string name="party_logo">Party Logo</string>
+    <string name="title_activity_official">OfficialActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="address">Address: </string>
+    <string name="phone">Phone: </string>
+    <string name="email">"Email: "</string>
+    <string name="url">URL:</string>
 </resources>

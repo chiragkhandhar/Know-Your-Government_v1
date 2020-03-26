@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -185,8 +186,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int position = rv.getChildAdapterPosition(view);
         Official temp = officialArrayList.get(position);
 
-        // Do Stuff
-        Toast.makeText(this, temp.getName(), Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this,OfficialActivity.class);
+        i.putExtra("location", location.getText());
+        i.putExtra("official",temp);
+        startActivity(i);
     }
 
     @Override

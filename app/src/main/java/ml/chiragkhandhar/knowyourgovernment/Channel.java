@@ -1,6 +1,8 @@
 package ml.chiragkhandhar.knowyourgovernment;
 
-public class Channel
+import java.io.Serializable;
+
+public class Channel implements Serializable
 {
     private String type, id;
 
