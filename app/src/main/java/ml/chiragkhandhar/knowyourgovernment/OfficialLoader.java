@@ -243,7 +243,7 @@ public class OfficialLoader extends AsyncTask<String,Void, ArrayList<Official>>
             Log.d(TAG, "EXCEPTION | getEmailFromData: " + e);
         }
 
-        return email;
+        return email.toLowerCase();
     }
 
     private String getPhoneFromData(JSONObject officialData_json)

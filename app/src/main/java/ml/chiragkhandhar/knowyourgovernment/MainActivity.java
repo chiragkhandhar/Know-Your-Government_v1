@@ -46,8 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(networkChecker())
         {
-            getOfficialData();
-            new OfficialLoader(this).execute("chicago");
+            new OfficialLoader(this).execute("60616");
         }
         else
         {
@@ -56,35 +55,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void getOfficialData()
-    {
-        ArrayList<Official> tempList = new ArrayList<>();
-
-        String title1 = "U.S. Senator";
-        String title2 = "U.S. Representative";
-        String name1 = "Chirag Khandhar";
-        String name2 = "Shloka Bhalgat";
-        String party1 = "(Democratic Party)";
-        String party2 = "(Republican Party)";
-
-        for(int i = 0; i<10; i++)
-        {
-            Official temp1 = new Official();
-            temp1.setTitle(title1);
-            temp1.setName(name1);
-            temp1.setParty(party1);
-            tempList.add(temp1);
-
-            Official temp2 = new Official();
-            temp2.setTitle(title2);
-            temp2.setName(name2);
-            temp2.setParty(party2);
-            tempList.add(temp2);
-        }
-
-//        Log.d(TAG, "onCreate: bp: tempList: " + tempList);
-//        updateOfficialData(tempList);
-    }
 
     public void setupComponents()
     {
@@ -162,7 +132,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.setPositiveButton("Search", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id)
             {
-                Toast.makeText(MainActivity.this, "Search Button Clicked", Toast.LENGTH_SHORT).show();
+                String searchString = et.getText().toString().trim();
+                if(!searchString.equals(""))
+                {
+                    location.setText("");
+                    new OfficialLoader(MainActivity.this).execute(searchString);
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, R.string.nullSearchStringMsg, Toast.LENGTH_SHORT).show();
+                    search();
+                }
 
             }
         });
