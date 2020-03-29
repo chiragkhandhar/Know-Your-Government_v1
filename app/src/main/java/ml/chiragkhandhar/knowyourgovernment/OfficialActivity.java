@@ -293,7 +293,7 @@ public class OfficialActivity extends AppCompatActivity
     }
     void setUpNonPartisanTheme()
     {
-        location.setBackgroundResource(R.color.extra_dark_grey);
+        location.setBackgroundResource(R.color.colorPrimaryDark);
         partyLogo.setImageResource(R.drawable.default_party);
         cs.setBackgroundResource(R.color.dark_grey);
         dc.setBackgroundResource(R.drawable.np_details_bg);
