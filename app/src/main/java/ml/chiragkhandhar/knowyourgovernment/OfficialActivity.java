@@ -66,8 +66,6 @@ public class OfficialActivity extends AppCompatActivity
         twt_icn = findViewById(R.id.twitter);
         ytb_icn = findViewById(R.id.youtube);
         gp_icn = findViewById(R.id.gplus);
-
-
     }
 
     void setUpLocation()
@@ -84,6 +82,7 @@ public class OfficialActivity extends AppCompatActivity
         {
             temp = (Official) getIntent().getSerializableExtra("official");
             ArrayList<Channel> channels;
+            assert temp != null;
             title.setText(temp.getTitle());
             name.setText(temp.getName());
             party.setText(temp.getParty());
@@ -201,7 +200,7 @@ public class OfficialActivity extends AppCompatActivity
 
    public void twitterClicked(View v)
     {
-        Intent intent = null;
+        Intent intent;
         String id = twitterHandle.getId();
         try
         {
@@ -246,7 +245,7 @@ public class OfficialActivity extends AppCompatActivity
     public void googlePlusClicked(View v)
     {
         String id = gplusHandle.getId();
-        Intent intent = null;
+        Intent intent;
         try {
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setClassName("com.google.android.apps.plus",
@@ -261,7 +260,7 @@ public class OfficialActivity extends AppCompatActivity
 
     public void youTubeClicked(View v) {
         String id = youtubeHandle.getId();
-        Intent intent = null;
+        Intent intent;
         try
         {
             intent = new Intent(Intent.ACTION_VIEW);
@@ -303,7 +302,6 @@ public class OfficialActivity extends AppCompatActivity
     void loadProfilePicture(String URL)
     {
         Log.d(TAG, "bp: loadProfilePicture: URL: " + URL);
-        Picasso picasso = new Picasso.Builder(this).build();
 
         if(URL.equals(""))
         {
@@ -311,9 +309,10 @@ public class OfficialActivity extends AppCompatActivity
         }
         else
         {
-            picasso.load(URL)
-                    .error(R.drawable.brokenimage)
+            Picasso.get()
+                    .load(URL)
                     .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.brokenimage)
                     .into(dp);
         }
     }

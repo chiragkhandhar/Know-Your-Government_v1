@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">Know Your Government</string>
+    <string name="no_perm">Unable to detect Location</string>
+    <string name="no_locs">Location Unavailable</string>
     <string name="networkErrorTitle">No Network Connection</string>
     <string name="networkErrorMsg1">Civic data can not be loaded without a Network Connection</string>
     <string name="networkErrorMsg2">You can not search without a Network Connection.</string>
+    <string name="locationErrorTitle">Need Location Access</string>
+    <string name="locationErrorMsg1">Unable to detect your current location, either refresh and give permission or try searching the location.</string>
     <string name="search">Search</string>
     <string name="about">About</string>
     <string name="separator">separator</string>

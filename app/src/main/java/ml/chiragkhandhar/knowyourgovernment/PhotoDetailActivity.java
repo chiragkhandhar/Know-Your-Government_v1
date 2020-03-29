@@ -55,6 +55,7 @@ public class PhotoDetailActivity extends AppCompatActivity
         if(getIntent().hasExtra("official"))
         {
             temp = (Official) getIntent().getSerializableExtra("official");
+            assert temp != null;
             title.setText(temp.getTitle());
             name.setText(temp.getName());
             party.setText(temp.getParty());
@@ -97,9 +98,9 @@ public class PhotoDetailActivity extends AppCompatActivity
     void loadProfilePicture(String URL)
     {
         Log.d(TAG, "bp: loadProfilePicture: URL: " + URL);
-        Picasso picasso = new Picasso.Builder(this).build();
 
-        picasso.load(URL)
+        Picasso.get()
+                .load(URL)
                 .error(R.drawable.brokenimage)
                 .placeholder(R.drawable.placeholder)
                 .into(dp);

@@ -323,7 +323,7 @@ public class OfficialLoader extends AsyncTask<String,Void, ArrayList<Official>>
         try
         {
             photoURL = officialData_json.getString("photoUrl");
-            Log.d(TAG, "getPhotoURLfromData: bp: PhotoURL: " + photoURL);
+//            Log.d(TAG, "getPhotoURLfromData: bp: PhotoURL: " + photoURL);
         }
         catch (Exception e)
         {
