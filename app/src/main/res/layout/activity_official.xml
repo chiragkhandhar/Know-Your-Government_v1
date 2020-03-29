@@ -27,7 +27,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        tools:context=".OfficialActivity">
+        tools:context=".OfficialActivity"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-49dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -40,11 +42,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="32dp"
                 android:background="@drawable/details_bg"
                 android:elevation="4dp"
                 android:padding="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/partyLogo">
@@ -83,7 +83,7 @@
                     android:id="@+id/phoneLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:drawableStart="@drawable/ic_phone"
                     android:fontFamily="@font/product_sans_regular"
                     android:textColor="@color/colorAccent"
@@ -111,6 +111,7 @@
                     android:fontFamily="@font/product_sans_regular"
                     android:textAlignment="viewStart"
                     android:textColor="@color/white"
+                    android:textIsSelectable="false"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/addrressLabel"
@@ -155,6 +156,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/address"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/address" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -235,6 +237,7 @@
                 android:cropToPadding="true"
                 android:elevation="4dp"
                 android:foreground="@drawable/dp_foreground"
+                android:onClick="expandImage"
                 android:scaleType="fitCenter"
                 app:layout_constraintBottom_toTopOf="@+id/guideline9"
                 app:layout_constraintEnd_toStartOf="@+id/verticalRight"
@@ -249,6 +252,7 @@
                 android:background="@drawable/party_bg"
                 android:contentDescription="@string/party_logo"
                 android:elevation="6dp"
+                android:onClick="partyLogoClicked"
                 android:scaleType="centerInside"
                 app:layout_constraintEnd_toStartOf="@+id/verticalRight"
                 app:layout_constraintStart_toStartOf="@+id/verticalLeft"
@@ -262,8 +266,88 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent="0.5294118" />
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <ImageView
+                android:id="@+id/facebook"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/social_bg"
+                android:clickable="true"
+                android:contentDescription="@string/facebook"
+                android:onClick="facebookClicked"
+                android:padding="2dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/twitter"
+                app:layout_constraintTop_toBottomOf="@+id/detailsCard"
+                app:srcCompat="@drawable/ic_fb" />
+
+            <ImageView
+                android:id="@+id/twitter"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/social_bg"
+                android:clickable="true"
+                android:contentDescription="@string/twitter"
+                android:onClick="twitterClicked"
+                android:padding="10dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detailsCard"
+                app:srcCompat="@drawable/ic_twitter" />
+
+            <ImageView
+                android:id="@+id/youtube"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/social_bg"
+                android:clickable="true"
+                android:contentDescription="@string/youtube"
+                android:onClick="youTubeClicked"
+                android:padding="5dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/facebook"
+                app:layout_constraintTop_toBottomOf="@+id/detailsCard"
+                app:srcCompat="@drawable/ic_youtube" />
+
+            <ImageView
+                android:id="@+id/gplus"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/social_bg"
+                android:clickable="true"
+                android:contentDescription="@string/gplus"
+                android:onClick="googlePlusClicked"
+                android:padding="2dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/youtube"
+                app:layout_constraintTop_toBottomOf="@+id/detailsCard"
+                app:srcCompat="@drawable/ic_gplus" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

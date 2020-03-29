@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener
+public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     private RecyclerView rv;
     private TextView location;
@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
-
 
     public void setupComponents()
     {
@@ -112,7 +111,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     noNetworkDialog(getString(R.string.networkErrorMsg2));
                 break;
             case R.id.about:
-                // Some Stuff
+                Intent i = new Intent(this, AboutActivity.class);
+                startActivity(i);
                 break;
             default:
                 Toast.makeText(this,"Invalid Option",Toast.LENGTH_SHORT).show();
@@ -172,27 +172,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(i);
     }
 
-    @Override
-    public boolean onLongClick(View view)
-    {
-        int position = rv.getChildAdapterPosition(view);
-        Official temp = officialArrayList.get(position);
-
-        // Dialog with a layout
-
-        // Inflate the dialog's layout
-        LayoutInflater inflater = LayoutInflater.from(this);
-        @SuppressLint("InflateParams")
-        final View v = inflater.inflate(R.layout.dialog, null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage("Please enter the values:");
-//        builder.setTitle("Dialog Layout");
-
-        // Set the inflated view to be the builder's view
-        builder.setView(view);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        return true;
-    }
 }

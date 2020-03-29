@@ -4,20 +4,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class OfficialActivity extends AppCompatActivity
 {
     private ConstraintLayout cs, dc;
     private TextView title, name, party, address,addressLab, email, emailLab, url, urlLab, phone, phoneLab, location;
-    private ImageView dp, partyLogo;
+    private ImageView dp, partyLogo, fb_icn, twt_icn, ytb_icn, gp_icn;
+    private Channel fbHandle, twitterHandle, youtubeHandle, gplusHandle;
+    private Official temp;
     private static final String TAG = "OfficialActivity";
 
     @Override
@@ -34,6 +46,7 @@ public class OfficialActivity extends AppCompatActivity
     {
         cs = findViewById(R.id.constrainedLayout);
         dc = findViewById(R.id.detailsCard);
+
         location = findViewById(R.id.location);
         title = findViewById(R.id.title);
         name = findViewById(R.id.name);
@@ -48,6 +61,13 @@ public class OfficialActivity extends AppCompatActivity
         phoneLab = findViewById(R.id.phoneLabel);
         dp = findViewById(R.id.dp);
         partyLogo = findViewById(R.id.partyLogo);
+
+        fb_icn = findViewById(R.id.facebook);
+        twt_icn = findViewById(R.id.twitter);
+        ytb_icn = findViewById(R.id.youtube);
+        gp_icn = findViewById(R.id.gplus);
+
+
     }
 
     void setUpLocation()
@@ -62,20 +82,44 @@ public class OfficialActivity extends AppCompatActivity
     {
         if(getIntent().hasExtra("official"))
         {
-            Official temp = (Official) getIntent().getSerializableExtra("official");
+            temp = (Official) getIntent().getSerializableExtra("official");
+            ArrayList<Channel> channels;
             title.setText(temp.getTitle());
             name.setText(temp.getName());
             party.setText(temp.getParty());
             if(!temp.getAddress().equals(""))
-                address.setText(temp.getAddress());
+            {
+                address.setText(temp.getAddress().trim());
+                Linkify.addLinks(address, Linkify.ALL);
+                address.setLinkTextColor(getColor(R.color.white));
+            }
             else
             {
                 addressLab.setVisibility(View.GONE);
                 address.setVisibility(View.GONE);
+                ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0,0,0,0);
+                phoneLab.setLayoutParams(params);
+            }
+
+            if(!temp.getPhones().equals(""))
+            {
+                phone.setText(temp.getPhones());
+                phone.setLinkTextColor(getColor(R.color.white));
+                Linkify.addLinks(phone, Linkify.ALL);
+            }
+            else
+            {
+                phoneLab.setVisibility(View.GONE);
+                phone.setVisibility(View.GONE);
             }
 
             if(!temp.getEmails().equals(""))
+            {
                 email.setText(temp.getEmails());
+                email.setLinkTextColor(getColor(R.color.white));
+                Linkify.addLinks(email, Linkify.ALL);
+            }
             else
             {
                 emailLab.setVisibility(View.GONE);
@@ -83,20 +127,17 @@ public class OfficialActivity extends AppCompatActivity
             }
 
             if(!temp.getUrls().equals(""))
+            {
                 url.setText(temp.getUrls());
+                url.setLinkTextColor(getColor(R.color.white));
+                Linkify.addLinks(url, Linkify.ALL);
+            }
             else
             {
                 urlLab.setVisibility(View.GONE);
                 url.setVisibility(View.GONE);
             }
 
-            if(!phone.getUrls().equals(""))
-                phone.setText(temp.getPhones());
-            else
-            {
-                phoneLab.setVisibility(View.GONE);
-                phone.setVisibility(View.GONE);
-            }
 
             if(temp.getParty().trim().toLowerCase().contains("democratic"))
                 setUpDemocraticTheme();
@@ -106,9 +147,133 @@ public class OfficialActivity extends AppCompatActivity
                 setUpNonPartisanTheme();
 
             loadProfilePicture(temp.getPhotoURL().trim());
+
+            channels = temp.getChannels();
+
+            if( channels.size() > 0 )
+            {
+                for(Channel single_channel : channels )
+                {
+                    if(single_channel.getType().equals("Facebook"))
+                    {
+                        fbHandle = single_channel;
+                        fb_icn.setVisibility(View.VISIBLE);
+
+                    }
+                    if(single_channel.getType().equals("Twitter"))
+                    {
+                        twitterHandle = single_channel;
+                        twt_icn.setVisibility(View.VISIBLE);
+
+                    }
+                    if(single_channel.getType().equals("GooglePlus"))
+                    {
+                        gplusHandle = single_channel;
+                        gp_icn.setVisibility(View.VISIBLE);
+                    }
+                    if(single_channel.getType().equals("YouTube"))
+                    {
+                        youtubeHandle = single_channel;
+                        ytb_icn.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
         }
     }
 
+    public void partyLogoClicked(View v)
+    {
+        String dem_URL = "https://democrats.org";
+        String rep_URL = "https://www.gop.com";
+
+        if(temp.getParty().toLowerCase().trim().contains("democratic"))
+        {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(dem_URL));
+            startActivity(i);
+        }
+        else if(temp.getParty().toLowerCase().trim().contains("republican"))
+        {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(rep_URL));
+            startActivity(i);
+        }
+    }
+
+
+   public void twitterClicked(View v)
+    {
+        Intent intent = null;
+        String id = twitterHandle.getId();
+        try
+        {
+            getPackageManager().getPackageInfo("com.twitter.android", 0);
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=" + id));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        catch (Exception e)
+        {
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/" + id));
+        }
+        startActivity(intent);
+    }
+
+    public void facebookClicked(View v)
+    {
+        String id = fbHandle.getId();
+        String FACEBOOK_URL = "https://www.facebook.com/" + id;
+        String urlToUse;
+        PackageManager packageManager = getPackageManager();
+        try
+        {
+            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
+            if (versionCode >= 3002850)
+            { //newer versions of fb app
+                urlToUse = "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+            }
+            else
+            { //older versions of fb app
+                urlToUse = "fb://page/" + id;
+            }
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            urlToUse = FACEBOOK_URL; //normal web url
+        }
+        Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
+        facebookIntent.setData(Uri.parse(urlToUse));
+        startActivity(facebookIntent);
+    }
+
+    public void googlePlusClicked(View v)
+    {
+        String id = gplusHandle.getId();
+        Intent intent = null;
+        try {
+            intent = new Intent(Intent.ACTION_VIEW);
+            intent.setClassName("com.google.android.apps.plus",
+                    "com.google.android.apps.plus.phone.UrlGatewayActivity");
+            intent.putExtra("customAppUri", id);
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://plus.google.com/" + name)));
+        }
+    }
+
+    public void youTubeClicked(View v) {
+        String id = youtubeHandle.getId();
+        Intent intent = null;
+        try
+        {
+            intent = new Intent(Intent.ACTION_VIEW);
+            intent.setPackage("com.google.android.youtube");
+            intent.setData(Uri.parse("https://www.youtube.com/" + id));
+            startActivity(intent);
+        }
+        catch (ActivityNotFoundException e)
+        {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/" + id)));
+        }
+    }
     void setUpDemocraticTheme()
     {
         location.setBackgroundResource(R.color.dark_blue);
@@ -151,5 +316,19 @@ public class OfficialActivity extends AppCompatActivity
                     .placeholder(R.drawable.placeholder)
                     .into(dp);
         }
+    }
+
+    public void expandImage(View v)
+    {
+        if(!temp.getPhotoURL().equals(""))
+        {
+            Intent i = new Intent(this,PhotoDetailActivity.class);
+            i.putExtra("location", location.getText());
+            i.putExtra("official",temp);
+            startActivity(i);
+        }
+        else
+            Toast.makeText(this, "No Profile Picture", Toast.LENGTH_SHORT).show();
+        
     }
 }

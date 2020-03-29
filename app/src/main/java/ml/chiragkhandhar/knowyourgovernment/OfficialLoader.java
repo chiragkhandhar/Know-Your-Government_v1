@@ -146,8 +146,9 @@ public class OfficialLoader extends AsyncTask<String,Void, ArrayList<Official>>
             String line1 = getLine1FromData(address);
             String line2 = getLine2FromData(address);
             String city = getCityFromData(address);
+            String state = getStateFromData(address);
             String zip = getZIPFromData(address);
-            finalAddress = line1 + ", " + (line2.equals("")?line2 + "":line2 + ", ") + city + ", " + zip;
+            finalAddress = line1 + ", " + (line2.equals("")?line2 + "":line2 + ", ") + city + ", " + state + ", " +zip;
         }
         catch (Exception e)
         {
@@ -198,6 +199,21 @@ public class OfficialLoader extends AsyncTask<String,Void, ArrayList<Official>>
         }
         return city;
     }
+
+    private String getStateFromData(JSONObject address)
+    {
+        String state = "";
+        try
+        {
+            state = address.getString("state");
+        }
+        catch (Exception e)
+        {
+            Log.d(TAG, "EXCEPTION | getStateFromData: " + e);
+        }
+        return state;
+    }
+
     private String getZIPFromData(JSONObject address)
     {
         String zip = "";

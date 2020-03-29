@@ -100,7 +100,7 @@
         app:layout_constraintGuide_begin="341dp" />
 
     <ImageView
-        android:id="@+id/party_logo"
+        android:id="@+id/partyLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/party_logo"
