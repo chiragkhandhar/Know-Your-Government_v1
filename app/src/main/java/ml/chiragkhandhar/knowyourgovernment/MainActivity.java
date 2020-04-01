@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 {
     private SwipeRefreshLayout swiper;
     private RecyclerView rv;
-    private TextView location;
+    private TextView location, no_location;
     private ArrayList<Official> officialArrayList = new ArrayList<>();
     private OfficialAdapter officialAdapter;
     private static final String TAG = "MainActivity";
@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static int MY_LOCATION_REQUEST_CODE_ID = 329;
     private LocationManager locationManager;
     private Criteria criteria;
+    
+    private boolean LOCATION_NOT_FOUND_FLAG = false;
 
     private String currentLatLon, geoCodedLatLon;
 
@@ -119,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         swiper = findViewById(R.id.swiper);
         rv = findViewById(R.id.recycler);
         location = findViewById(R.id.location);
+        no_location = findViewById(R.id.location404);
         currentLatLon = "";
         geoCodedLatLon = "";
     }
@@ -237,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (dismissFlag == 0)
         {
-            builder.setIcon(R.drawable.ic_error);
+            builder.setIcon(R.drawable.ic_location_error);
             builder.setTitle(R.string.locationErrorTitle);
             builder.setMessage(message);
 
@@ -252,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setIcon(R.drawable.ic_error);
+        builder.setIcon(R.drawable.ic_network_error);
         builder.setTitle(R.string.networkErrorTitle);
         builder.setMessage(message);
 
@@ -263,9 +266,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void updateOfficialData(ArrayList<Official> tempList)
     {
         officialArrayList.clear();
-        officialArrayList.addAll(tempList);
-//        Log.d(TAG, "updateOfficialData: bp: officialArrayList[0]: " + officialArrayList.get(0));
+        if(tempList.size()!=0)
+        {
+            officialArrayList.addAll(tempList);
+            no_location.setVisibility(View.GONE);
+        }
+        else
+        {
+            location.setText(getText(R.string.no_locs));
+            no_location.setVisibility(View.VISIBLE);
+        }
         officialAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -348,6 +360,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         i.putExtra("location", location.getText());
         i.putExtra("official",temp);
         startActivity(i);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
+
+    public boolean isLOCATION_NOT_FOUND_FLAG() {
+        return LOCATION_NOT_FOUND_FLAG;
+    }
+
+    public void setLOCATION_NOT_FOUND_FLAG(boolean LOCATION_NOT_FOUND_FLAG) {
+        this.LOCATION_NOT_FOUND_FLAG = LOCATION_NOT_FOUND_FLAG;
+    }
 }

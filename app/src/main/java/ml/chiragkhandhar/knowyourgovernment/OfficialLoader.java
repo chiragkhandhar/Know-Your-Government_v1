@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -39,7 +40,6 @@ public class OfficialLoader extends AsyncTask<String,Void, ArrayList<Official>>
 
         String data = getOfficialDatafromURL(DATA_URL);
         finalData = parseJSON(data);
-
         return finalData;
     }
 
@@ -64,8 +64,8 @@ public class OfficialLoader extends AsyncTask<String,Void, ArrayList<Official>>
         }
         catch (Exception e)
         {
-            Log.e(TAG, "ERROR | OfficialLoader: getOfficialDatafromURL: bp:", e);
-            return null;
+            Log.e(TAG, "EXCEPTION | OfficialLoader: getOfficialDatafromURL: bp:", e);
+            return sb.toString();
         }
         return sb.toString();
     }

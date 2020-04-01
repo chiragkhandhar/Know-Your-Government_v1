@@ -38,5 +38,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Chicago, IL, 60616" />
+
+        <TextView
+            android:id="@+id/location404"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_404"
+            android:fontFamily="@font/product_sans_regular"
+            android:padding="5dp"
+            android:text="@string/no_location_error"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -24,4 +24,11 @@ public class AboutActivity extends AppCompatActivity
         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(dem_URL));
         startActivity(i);
     }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
 }

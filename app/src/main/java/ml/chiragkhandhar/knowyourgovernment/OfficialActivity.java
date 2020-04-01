@@ -189,11 +189,13 @@ public class OfficialActivity extends AppCompatActivity
         {
             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(dem_URL));
             startActivity(i);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
         else if(temp.getParty().toLowerCase().trim().contains("republican"))
         {
             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(rep_URL));
             startActivity(i);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     }
 
@@ -213,6 +215,7 @@ public class OfficialActivity extends AppCompatActivity
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/" + id));
         }
         startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     public void facebookClicked(View v)
@@ -240,21 +243,26 @@ public class OfficialActivity extends AppCompatActivity
         Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
         facebookIntent.setData(Uri.parse(urlToUse));
         startActivity(facebookIntent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     public void googlePlusClicked(View v)
     {
         String id = gplusHandle.getId();
         Intent intent;
-        try {
+        try
+        {
             intent = new Intent(Intent.ACTION_VIEW);
             intent.setClassName("com.google.android.apps.plus",
                     "com.google.android.apps.plus.phone.UrlGatewayActivity");
             intent.putExtra("customAppUri", id);
             startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://plus.google.com/" + name)));
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
+        catch (ActivityNotFoundException e)
+        {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/" + name)));
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     }
 
@@ -267,10 +275,12 @@ public class OfficialActivity extends AppCompatActivity
             intent.setPackage("com.google.android.youtube");
             intent.setData(Uri.parse("https://www.youtube.com/" + id));
             startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
         catch (ActivityNotFoundException e)
         {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/" + id)));
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     }
     void setUpDemocraticTheme()
@@ -329,5 +339,12 @@ public class OfficialActivity extends AppCompatActivity
         else
             Toast.makeText(this, "No Profile Picture", Toast.LENGTH_SHORT).show();
         
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }
