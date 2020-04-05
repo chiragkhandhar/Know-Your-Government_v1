@@ -343,7 +343,8 @@ public class OfficialLoader extends AsyncTask<String,Void, ArrayList<Official>>
             String city = normalizedInput.getString("city");
             String state = normalizedInput.getString("state");
             String zip = normalizedInput.getString("zip");
-            String locationText = city + ", " + state + ", " + zip;
+
+            String locationText = (city.equals("")?"":city+", ") + (zip.equals("")?state:state+", ") + (zip.equals("")?"":zip);
             location.setText(locationText);
         }
         catch (Exception e)

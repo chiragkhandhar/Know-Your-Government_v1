@@ -2,12 +2,10 @@ package ml.chiragkhandhar.knowyourgovernment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.util.Linkify;
@@ -15,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -303,7 +300,7 @@ public class OfficialActivity extends AppCompatActivity
     void setUpNonPartisanTheme()
     {
         location.setBackgroundResource(R.color.colorPrimaryDark);
-        partyLogo.setImageResource(R.drawable.default_party);
+        partyLogo.setImageResource(R.drawable.non_logo);
         cs.setBackgroundResource(R.color.dark_grey);
         dc.setBackgroundResource(R.drawable.np_details_bg);
         getWindow().setNavigationBarColor(getColor(R.color.dark_grey));

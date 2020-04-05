@@ -90,7 +90,7 @@ public class PhotoDetailActivity extends AppCompatActivity
     void setUpNonPartisanTheme()
     {
         location.setBackgroundResource(R.color.extra_dark_grey);
-        partyLogo.setImageResource(R.drawable.default_party);
+        partyLogo.setImageResource(R.drawable.non_logo);
         cs.setBackgroundResource(R.color.dark_grey);
         getWindow().setNavigationBarColor(getColor(R.color.dark_grey));
     }

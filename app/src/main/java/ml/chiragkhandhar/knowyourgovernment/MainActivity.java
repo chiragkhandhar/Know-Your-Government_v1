@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static int MY_LOCATION_REQUEST_CODE_ID = 329;
     private LocationManager locationManager;
     private Criteria criteria;
-    
-    private boolean LOCATION_NOT_FOUND_FLAG = false;
 
     private String currentLatLon, geoCodedLatLon;
 
@@ -130,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         criteria = new Criteria();
-        boolean isLocationDetected = false;
 
         // GPS
         criteria.setPowerRequirement(Criteria.POWER_HIGH);
@@ -368,13 +365,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         super.onPause();
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-    }
-
-    public boolean isLOCATION_NOT_FOUND_FLAG() {
-        return LOCATION_NOT_FOUND_FLAG;
-    }
-
-    public void setLOCATION_NOT_FOUND_FLAG(boolean LOCATION_NOT_FOUND_FLAG) {
-        this.LOCATION_NOT_FOUND_FLAG = LOCATION_NOT_FOUND_FLAG;
     }
 }
