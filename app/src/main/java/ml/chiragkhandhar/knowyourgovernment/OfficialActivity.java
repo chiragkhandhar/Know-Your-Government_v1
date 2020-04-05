@@ -303,6 +303,7 @@ public class OfficialActivity extends AppCompatActivity
         partyLogo.setImageResource(R.drawable.non_logo);
         cs.setBackgroundResource(R.color.dark_grey);
         dc.setBackgroundResource(R.drawable.np_details_bg);
+        dp.setBackgroundResource(R.drawable.dp_background_non);
         getWindow().setNavigationBarColor(getColor(R.color.dark_grey));
     }
 
