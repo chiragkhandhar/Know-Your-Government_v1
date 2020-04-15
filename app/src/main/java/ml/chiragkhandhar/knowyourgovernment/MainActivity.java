@@ -24,12 +24,16 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Criteria criteria;
 
     private String currentLatLon, geoCodedLatLon;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -360,10 +365,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
+
     @Override
     protected void onPause()
     {
         super.onPause();
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
+
+
 }
