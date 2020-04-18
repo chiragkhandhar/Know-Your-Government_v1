@@ -5,11 +5,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,7 +18,6 @@ public class OfficialLoader extends AsyncTask<String,Void, ArrayList<Official>>
 {
     @SuppressLint("StaticFieldLeak")
     private MainActivity mainActivity;
-    private final String API_TOKEN = "AIzaSyA7D-yk8Cue5NK8PU6jjAW1Df4l70akgAw";
     private static final String TAG = "OfficialLoader";
 
 
@@ -35,7 +31,7 @@ public class OfficialLoader extends AsyncTask<String,Void, ArrayList<Official>>
     {
         ArrayList<Official> finalData;
         String CT_ST_ZP = strings[0];
-
+        String API_TOKEN = BuildConfig.API_KEY;
         String DATA_URL = "https://www.googleapis.com/civicinfo/v2/representatives?key="+API_TOKEN+"&address="+CT_ST_ZP;
 
         String data = getOfficialDatafromURL(DATA_URL);
