@@ -14,6 +14,9 @@
   <a style="text-decoration:none">
     <img src="https://img.shields.io/badge/Platform-Android-brightgreen" alt="Platform" />
   </a>
+   <a style="text-decoration:none" href="https://github.com/chiragkhandhar/Know-Your-Government/raw/master/app/release/Know%20Your%20Government.apk">
+    <img src="https://img.shields.io/badge/Download-App-red" alt="Platform" />
+  </a>
 </p>
 
 ## What is Know Your Government and why do I care?
@@ -36,7 +39,7 @@ and social media properties for the elected officials in those districts.
 
 ## Status update / Downloads :
 
-Version 1.0 | Coming Soon
+[[05-09-2020] Version 1.0](app/release/)
 
 ## Platform limitations and dependencies :
 
